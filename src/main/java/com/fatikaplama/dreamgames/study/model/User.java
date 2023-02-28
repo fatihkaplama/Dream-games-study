@@ -18,9 +18,9 @@ public class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "coin", nullable = false)
+    @Column(name = "coin")
     private int coins = 5000;
 
-    @Column(name = "level", nullable = false)
+    @Column(name = "level")
     private int level = 1;
 }
