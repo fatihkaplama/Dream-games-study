@@ -4,6 +4,8 @@ import com.fatikaplama.dreamgames.study.model.User;
 import com.fatikaplama.dreamgames.study.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -24,7 +26,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return null;
+    public User updateLevel(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if(!userOptional.isPresent()){
+            throw new RuntimeException("User not found");
+        }
+        User user = userOptional.get();
+        user.setLevel(user.getLevel() + 1);
+        user.setCoins(user.getCoins() + 25);
+        return userRepository.save(user);
     }
 }
