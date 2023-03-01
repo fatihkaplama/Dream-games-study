@@ -18,7 +18,7 @@ public class Team {
     @Column(name = "t_id")
     private Long id;
 
-    @Column(unique = true, name = "name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "capacity")

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api")
 public class TeamController {
@@ -25,4 +27,8 @@ public class TeamController {
         return new ResponseEntity<>(teamService.joinTeam(userId, teamId), HttpStatus.OK);
     }
 
+    @GetMapping("/teams")
+    public ResponseEntity<List<Team>> getRandomTenTeams(){
+        return new ResponseEntity<>(teamService.getRandomTenTeamsWithEmptyPlace(), HttpStatus.OK);
+    }
 }
