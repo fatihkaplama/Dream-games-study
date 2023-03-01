@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +24,8 @@ public class User {
 
     @Column(name = "level")
     private int level = 1;
+
+    /*@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id", foreignKey = @ForeignKey(name = "FK_USER_TEAM"))
+    private Team team;*/
 }
