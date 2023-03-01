@@ -20,4 +20,9 @@ public class TeamController {
         return new ResponseEntity<>(teamService.createTeam(id, team), HttpStatus.CREATED);
     }
 
+    @PostMapping("/teams/{teamId}/users/{userId}")
+    public ResponseEntity<Team> joinTeam(@PathVariable Long teamId, @PathVariable Long userId){
+        return new ResponseEntity<>(teamService.joinTeam(userId, teamId), HttpStatus.OK);
+    }
+
 }

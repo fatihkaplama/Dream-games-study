@@ -34,4 +34,17 @@ public class TeamServiceImpl implements TeamService{
         user.setCoins(userCoins - 1000);
         return teamRepository.save(team);
     }
+
+    @Override
+    public Team joinTeam(Long userId, Long teamId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
+
+        if(team.getCapacity() == 0){
+            throw new RuntimeException("This team's capacity is full");
+        }
+
+        team.addUser(user);
+        return teamRepository.save(team);
+    }
 }

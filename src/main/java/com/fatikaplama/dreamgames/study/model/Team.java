@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teams")
 public class Team {
@@ -22,10 +21,22 @@ public class Team {
     @Column(unique = true, name = "name", nullable = false)
     private String name;
 
-    @Column(name = "capacity", nullable = false)
+    @Column(name = "capacity")
     private int capacity = 20;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_t_id", referencedColumnName = "t_id")
     private List<User> users;
+
+    public Team(){
+        this.users = new ArrayList<>();
+    }
+
+    public void addUser(User user){
+        Boolean exists = getUsers().contains(user);
+        if(!exists){
+            setCapacity(getCapacity() - 1);
+            this.users.add(user);
+        }
+    }
 }
