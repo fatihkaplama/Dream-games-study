@@ -34,8 +34,13 @@ public class TeamServiceImpl implements TeamService{
         if(!userOptional.isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
         }
-        
+
         User user = userOptional.get();
+
+        if(user.getInTeam()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is in another team so team cannot be created");
+        }
+
         int userCoins = user.getCoins();
 
         if(userCoins < 1000){
@@ -43,7 +48,12 @@ public class TeamServiceImpl implements TeamService{
         }
 
         user.setCoins(userCoins - 1000);
-        return teamRepository.save(team);
+        teamRepository.save(team);
+
+        Team addedTeam = teamRepository.findByName(team.getName());
+        Long teamId = addedTeam.getId();
+        joinTeam(user.getId(), teamId);
+        return addedTeam;
     }
 
     @Override
@@ -51,11 +61,16 @@ public class TeamServiceImpl implements TeamService{
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Team not found"));
 
+        if(user.getInTeam()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is in another team so cannot join the team");
+        }
+
         if(team.getCapacity() == 0){
             throw new RuntimeException("This team's capacity is full");
         }
 
         team.addUser(user);
+        user.setInTeam(true);
         return teamRepository.save(team);
     }
 

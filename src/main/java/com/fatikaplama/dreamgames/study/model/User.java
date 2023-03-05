@@ -25,7 +25,6 @@ public class User {
     @Column(name = "level")
     private int level = 1;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", foreignKey = @ForeignKey(name = "FK_USER_TEAM"))
-    private Team team;*/
+    @Column(name = "inTeam")
+    private Boolean inTeam = false;
 }
